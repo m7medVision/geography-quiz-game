@@ -6,7 +6,6 @@ import maleChar from '../assets/characters/DeWatermark.ai_1747751085011.png'
 
 // Import game components
 import MemoryMatchGame from './MemoryMatchGame'
-import DragDropGame from './DragDropGame'
 import MatchPairsGame from './MatchPairsGame'
 
 const QuizScreen = ({ playerName, characterType, currentContinent, questions, onFinishQuiz }) => {
@@ -18,31 +17,29 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
   const [displayedText, setDisplayedText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
   const [textInput, setTextInput] = useState('')
+  const [difficulty, setDifficulty] = useState('easy')
   
-  // Select continent-appropriate questions
-  // For this demo, we'll use different difficulty levels for different continents
-  // A real implementation might have continent-specific questions
-  const getDifficultyForContinent = () => {
-    switch(currentContinent) {
-      case 'asia':
-        return 'easy';
-      case 'europe':
-      case 'africa':
-        return 'medium';
-      case 'northAmerica':
-      case 'southAmerica':
-      case 'australia':
-      case 'antarctica':
-        return 'hard';
-      default:
-        return 'easy';
+  // Get the appropriate difficulty level for current progress
+  useEffect(() => {
+    const continentKey = currentContinent.toLowerCase();
+    
+    // Check if the continent exists in questions
+    if (questions[continentKey]) {
+      // Determine difficulty based on score or default to easy
+      // This is a simple implementation - you could enhance this
+      // to be based on player progress or other game state
+      setDifficulty('easy');
+    } else {
+      setDifficulty('easy'); // Default fallback
     }
-  };
+  }, [currentContinent, questions]);
   
-  const difficulty = getDifficultyForContinent();
+  // Get questions for the selected continent and difficulty
+  const continentKey = currentContinent.toLowerCase();
+  const continentQuestions = questions[continentKey] && questions[continentKey][difficulty] 
+    ? questions[continentKey][difficulty] 
+    : [];
   
-  // Get questions for the selected continent based on difficulty
-  const continentQuestions = questions[difficulty] || [];
   const currentQuestion = continentQuestions[currentQuestionIndex];
   
   // Prepare question text
@@ -112,22 +109,6 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
     } else {
       // Finish the quiz
       onFinishQuiz(currentContinent, score, continentQuestions.length);
-    }
-  };
-  
-  // Get map target positions for drag-drop game
-  const getTargetPositions = (mapType, items) => {
-    // In a real implementation, these would be configured properly
-    // based on actual map coordinates
-    switch(mapType) {
-      case 'continents':
-        return items;
-      case 'oceans':
-        return items;
-      case 'compass':
-        return ['North', 'East', 'South', 'West'];
-      default:
-        return items;
     }
   };
   
@@ -239,20 +220,8 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
           </div>
         );
       
-      case 'drag-drop':
-        return (
-          <div className="question-content drag-drop">
-            <DragDropGame 
-              items={currentQuestion.items} 
-              mapType={currentQuestion.map} 
-              targetPositions={getTargetPositions(currentQuestion.map, currentQuestion.items)}
-              onComplete={handleGameComplete} 
-            />
-          </div>
-        );
-      
       default:
-        return <div className="question-content">Question type not supported yet</div>;
+        return <div>Question type not supported.</div>;
     }
   };
   
@@ -284,7 +253,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
             
             {!isTyping && renderQuestionContent()}
             
-            {isCorrect !== null && !['match-flag', 'match-image', 'match', 'drag-drop'].includes(currentQuestion?.type) && (
+            {isCorrect !== null && !['match-flag', 'match-image', 'match'].includes(currentQuestion?.type) && (
               <div className="feedback-container">
                 <p className={`feedback ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`}>
                   {isCorrect ? 'Correct!' : `Incorrect. The answer is ${currentQuestion.answer}.`}

@@ -22,7 +22,7 @@ import unlockedEurope from '../assets/maps/unlocked/europe_map.png'
 import unlockedNorthAmerica from '../assets/maps/unlocked/north_america_map.png'
 import unlockedSouthAmerica from '../assets/maps/unlocked/south_america_map.png'
 
-const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnlockedContinents, onSelectContinent }) => {
+const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnlockedContinents, playerLevel, onSelectContinent, onResetGame }) => {
   const characterImage = characterType === 'male' ? maleChar : femaleChar
   const [isTyping, setIsTyping] = useState(true)
   const [displayedText, setDisplayedText] = useState('')
@@ -112,8 +112,10 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
     },
   ]
   
-  const promptText = `Click on a continent to start answering questions about it!
-    As you answer correctly, you'll unlock more continents to explore.`
+  const promptText = `Welcome back, ${playerName}!
+    Level: ${playerLevel}
+    Unlocked: ${unlockedContinents.length} of 7 continents.
+    Click on a continent to start answering questions about it!`
   
   // Typing effect for text
   useEffect(() => {
@@ -133,7 +135,7 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
       
       return () => clearInterval(typingInterval)
     }
-  }, [isTyping])
+  }, [isTyping, promptText])
   
   // Update unlockedContinents when propUnlockedContinents changes
   useEffect(() => {
@@ -164,6 +166,19 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
       transition={{ type: 'tween', duration: 0.5 }}
     >
       <div className="content world-map-content">
+        <div className="world-map-header">
+          <div className="player-info">
+            <div className="player-avatar">
+              <img src={characterImage} alt="Character" className="avatar-image" />
+            </div>
+            <div className="player-stats">
+              <h3 className="player-name">{playerName}</h3>
+              <div className="player-level">Level {playerLevel}</div>
+              <div className="player-progress">Unlocked: {unlockedContinents.length}/7 continents</div>
+            </div>
+          </div>
+        </div>
+        
         <div className="character-intro">
           <div className="character-avatar">
             <img src={characterImage} alt="Character" className="avatar-image" />
@@ -209,6 +224,18 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
                 )}
               </motion.button>
             ))}
+          </div>
+          
+          {/* Reset game button */}
+          <div className="world-map-footer">
+            <motion.button 
+              className="btn secondary-btn reset-btn"
+              onClick={onResetGame}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Reset Game
+            </motion.button>
           </div>
         </div>
       </div>

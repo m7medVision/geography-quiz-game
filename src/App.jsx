@@ -22,12 +22,57 @@ function App() {
   const [selectedContinent, setSelectedContinent] = useState(null)
   const [quizResults, setQuizResults] = useState({})
   const [unlockedContinents, setUnlockedContinents] = useState(['asia'])
+  const [playerLevel, setPlayerLevel] = useState(1)
   
-  // All continents list
-  const allContinents = ['asia', 'europe', 'africa', 'northAmerica', 'southAmerica', 'australia', 'antarctica']
+  // All continents list in unlocking order
+  const continentUnlockOrder = [
+    'asia', 
+    'europe', 
+    'africa', 
+    'northAmerica', 
+    'southAmerica', 
+    'australia', 
+    'antarctica'
+  ]
+  
+  // Load saved player data from localStorage on initial load
+  useEffect(() => {
+    const savedPlayerData = localStorage.getItem('geographyQuizPlayerData')
+    
+    if (savedPlayerData) {
+      const parsedData = JSON.parse(savedPlayerData)
+      
+      // Load saved data if it exists
+      if (parsedData.playerName) setPlayerName(parsedData.playerName)
+      if (parsedData.characterType) setCharacterType(parsedData.characterType)
+      if (parsedData.unlockedContinents && parsedData.unlockedContinents.length) {
+        setUnlockedContinents(parsedData.unlockedContinents)
+      }
+      if (parsedData.playerLevel) setPlayerLevel(parsedData.playerLevel)
+      
+      // If player has saved data, skip to world map if character already selected
+      if (parsedData.playerName && parsedData.characterType && gameStage === 1) {
+        setGameStage(6) // Skip to world map screen
+      }
+    }
+  }, [])
+  
+  // Save player data whenever relevant states change
+  useEffect(() => {
+    if (playerName && characterType) {
+      const playerData = {
+        playerName,
+        characterType,
+        unlockedContinents,
+        playerLevel
+      }
+      
+      localStorage.setItem('geographyQuizPlayerData', JSON.stringify(playerData))
+    }
+  }, [playerName, characterType, unlockedContinents, playerLevel])
   
   // Check if all continents are unlocked
-  const areAllContinentsUnlocked = allContinents.every(continent => 
+  const areAllContinentsUnlocked = continentUnlockOrder.every(continent => 
     unlockedContinents.includes(continent)
   )
   
@@ -78,10 +123,24 @@ function App() {
       totalQuestions
     })
     
-    // If score is at least half, unlock the continent
-    if (score >= Math.ceil(totalQuestions / 2) && !unlockedContinents.includes(continent)) {
-      const newUnlockedContinents = [...unlockedContinents, continent]
-      setUnlockedContinents(newUnlockedContinents)
+    // If score is at least half, unlock the next continent in sequence
+    if (score >= Math.ceil(totalQuestions / 2)) {
+      // Find the current index of the continent in the unlock order
+      const currentIndex = continentUnlockOrder.indexOf(continent)
+      
+      // If there's a next continent to unlock
+      if (currentIndex >= 0 && currentIndex < continentUnlockOrder.length - 1) {
+        const nextContinent = continentUnlockOrder[currentIndex + 1]
+        
+        // Only add to unlocked continents if it's not already unlocked
+        if (!unlockedContinents.includes(nextContinent)) {
+          const newUnlockedContinents = [...unlockedContinents, nextContinent]
+          setUnlockedContinents(newUnlockedContinents)
+          
+          // Increase player level when unlocking a new continent
+          setPlayerLevel(prevLevel => prevLevel + 1)
+        }
+      }
     }
     
     // Proceed to results screen (stage 8)
@@ -103,14 +162,32 @@ function App() {
     setUnlockedContinents(['asia'])
     setSelectedContinent(null)
     setQuizResults({})
+    setPlayerLevel(1)
+    
+    // Save the reset data to localStorage
+    const resetData = {
+      playerName,
+      characterType,
+      unlockedContinents: ['asia'],
+      playerLevel: 1
+    }
+    localStorage.setItem('geographyQuizPlayerData', JSON.stringify(resetData))
+    
     // Go back to the world map screen
     setGameStage(6)
   }
   
-  // For debugging - uncomment to test the celebration screen
-  // const debugUnlockAll = () => {
-  //   setUnlockedContinents(allContinents)
-  // }
+  // Clear saved game data and reset to beginning
+  const handleResetGame = () => {
+    localStorage.removeItem('geographyQuizPlayerData')
+    setPlayerName('')
+    setCharacterType(null)
+    setUnlockedContinents(['asia'])
+    setSelectedContinent(null)
+    setQuizResults({})
+    setPlayerLevel(1)
+    setGameStage(1)
+  }
   
   // Render appropriate stage
   return (
@@ -151,7 +228,9 @@ function App() {
             playerName={playerName}
             characterType={characterType}
             unlockedContinents={unlockedContinents}
+            playerLevel={playerLevel}
             onSelectContinent={handleContinentSelect}
+            onResetGame={handleResetGame}
           />
         )}
         
@@ -184,20 +263,12 @@ function App() {
             key="celebration"
             playerName={playerName}
             characterType={characterType}
+            playerLevel={playerLevel}
             onPlayAgain={handlePlayAgain}
+            onResetGame={handleResetGame}
           />
         )}
       </AnimatePresence>
-      
-      {/* Debug button - uncomment for testing */}
-      {/* {gameStage === 6 && (
-        <button 
-          onClick={debugUnlockAll} 
-          style={{position: 'absolute', bottom: 10, right: 10}}
-        >
-          Debug: Unlock All
-        </button>
-      )} */}
     </div>
   )
 }

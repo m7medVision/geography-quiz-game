@@ -5,31 +5,59 @@ import femaleChar from '../assets/characters/DeWatermark.ai_1747751052527.png'
 import maleChar from '../assets/characters/DeWatermark.ai_1747751085011.png'
 import celebrationImage from '../assets/celebrations/fireworks.gif'
 
+// Define continent unlock order for messaging
+const continentUnlockOrder = [
+  'asia', 
+  'europe', 
+  'africa', 
+  'northAmerica', 
+  'southAmerica', 
+  'australia', 
+  'antarctica'
+]
+
 const ResultsScreen = ({ playerName, characterType, continent, score, totalQuestions, onReplay, onNextContinent }) => {
   const characterImage = characterType === 'male' ? maleChar : femaleChar
-  const [displayedText, setDisplayedText] = useState('')
+  const isPassing = score >= Math.ceil(totalQuestions / 2)
   const [isTyping, setIsTyping] = useState(true)
+  const [displayedText, setDisplayedText] = useState('')
   
-  // Prepare the feedback text based on score
-  const isPerfectScore = score === totalQuestions
-  const isPassingScore = score >= Math.ceil(totalQuestions / 2)
+  // Get the next continent for unlock messaging
+  const currentIndex = continentUnlockOrder.indexOf(continent)
+  const nextContinent = currentIndex < continentUnlockOrder.length - 1 
+    ? continentUnlockOrder[currentIndex + 1]
+    : null
   
-  let feedbackText = ''
-  if (isPerfectScore) {
-    feedbackText = `Congratulations, ${playerName}! You got a perfect score on ${continent}! 
-      You've unlocked all questions for this continent and can now explore more continents!`
-  } else if (isPassingScore) {
-    feedbackText = `Good job, ${playerName}! You got ${score} out of ${totalQuestions} questions correct for ${continent}.
-      You've unlocked this continent and can now explore more or try again to improve your score!`
-  } else {
-    feedbackText = `Nice try, ${playerName}! You got ${score} out of ${totalQuestions} questions correct for ${continent}.
-      Let's review what you got wrong and try again to unlock this continent!`
+  // Format continent name for display
+  const formatContinentName = (name) => {
+    if (!name) return '';
+    
+    // Handle special case for continents with capital in the middle
+    if (name === 'northAmerica') return 'North America';
+    if (name === 'southAmerica') return 'South America';
+    
+    // Otherwise capitalize first letter
+    return name.charAt(0).toUpperCase() + name.slice(1);
   }
   
-  // Typing effect
+  const formattedContinent = formatContinentName(continent)
+  const formattedNextContinent = formatContinentName(nextContinent)
+  
+  // Prepare result messages based on score
+  const resultText = isPassing 
+    ? `Congratulations, ${playerName}!
+      You scored ${score}/${totalQuestions} on the ${formattedContinent} quiz.
+      ${nextContinent ? `You've unlocked ${formattedNextContinent}!` : 'You\'ve unlocked all continents!'}
+      Would you like to replay this quiz or explore another continent?`
+    : `Nice try, ${playerName}!
+      You scored ${score}/${totalQuestions} on the ${formattedContinent} quiz.
+      You need at least ${Math.ceil(totalQuestions / 2)}/${totalQuestions} to unlock the next continent.
+      Would you like to try again?`
+  
+  // Text typing effect
   useEffect(() => {
     if (isTyping) {
-      const text = feedbackText
+      const text = resultText
       let currentIndex = 0
       
       const typingInterval = setInterval(() => {
@@ -44,7 +72,7 @@ const ResultsScreen = ({ playerName, characterType, continent, score, totalQuest
       
       return () => clearInterval(typingInterval)
     }
-  }, [isTyping, feedbackText])
+  }, [isTyping, resultText])
   
   return (
     <motion.div 
@@ -61,15 +89,20 @@ const ResultsScreen = ({ playerName, characterType, continent, score, totalQuest
     >
       <div className="content results-content">
         <div className="results-header">
-          <h2 className="results-title">Quiz Results</h2>
-          <div className="score-display large">
-            Score: {score}/{totalQuestions}
-          </div>
+          <h2 className="results-title">{isPassing ? 'Great Job!' : 'Try Again'}</h2>
+          <div className="score-display large">Score: {score}/{totalQuestions}</div>
         </div>
         
-        {isPerfectScore && (
+        {isPassing && (
           <div className="celebration-container">
-            <img src={celebrationImage} alt="Celebration" className="celebration-image" />
+            <motion.img 
+              src={celebrationImage} 
+              alt="Celebration" 
+              className="celebration-image"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', damping: 8 }}
+            />
           </div>
         )}
         
@@ -79,31 +112,28 @@ const ResultsScreen = ({ playerName, characterType, continent, score, totalQuest
           </div>
           <div className="speech-bubble">
             <p>{displayedText}</p>
-            
-            {!isTyping && (
-              <div className="results-buttons">
-                <motion.button
-                  className="btn primary-btn"
-                  onClick={onReplay}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Replay
-                </motion.button>
-                
-                {isPassingScore && (
-                  <motion.button
-                    className="btn secondary-btn"
-                    onClick={onNextContinent}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Next Continent
-                  </motion.button>
-                )}
-              </div>
-            )}
           </div>
+        </div>
+        
+        <div className="results-buttons">
+          <motion.button 
+            className="btn secondary-btn"
+            onClick={onReplay}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Replay Quiz
+          </motion.button>
+          
+          <motion.button 
+            className="btn primary-btn"
+            onClick={onNextContinent}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            disabled={!isPassing && currentIndex === 0}
+          >
+            World Map
+          </motion.button>
         </div>
       </div>
     </motion.div>
