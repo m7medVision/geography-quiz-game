@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import "tailwindcss";
+
+body {
+  font-family: 'Fredoka One', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
