@@ -128,7 +128,11 @@ const MatchPairsGame = ({ pairs, onComplete }) => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              {item.text}
+              {item.text && typeof item.text === 'string' && item.text.startsWith('http') ? (
+                <img src={item.text} alt="Match Item" style={{ maxWidth: '100%', maxHeight: '50px', objectFit: 'contain' }} />
+              ) : (
+                item.text
+              )}
             </motion.div>
           ))}
         </div>
@@ -167,7 +171,11 @@ const MatchPairsGame = ({ pairs, onComplete }) => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              {item.text}
+              {item.text && typeof item.text === 'string' && item.text.startsWith('http') ? (
+                <img src={item.text} alt="Match Item" style={{ maxWidth: '100%', maxHeight: '50px', objectFit: 'contain' }} />
+              ) : (
+                item.text
+              )}
             </motion.div>
           ))}
         </div>

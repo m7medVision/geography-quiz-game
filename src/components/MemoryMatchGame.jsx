@@ -7,7 +7,7 @@ const MemoryMatchGame = ({ pairs, onComplete }) => {
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [canFlip, setCanFlip] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
-  const [countDown, setCountDown] = useState(5);
+  const [countDown, setCountDown] = useState(10);
   const [isComplete, setIsComplete] = useState(false);
 
 
@@ -46,7 +46,7 @@ const MemoryMatchGame = ({ pairs, onComplete }) => {
     
     // Show preview
     setShowPreview(true);
-    setCountDown(5);
+    setCountDown(10);
     setCanFlip(false);
   }, [pairs]);
 
@@ -148,7 +148,11 @@ const MemoryMatchGame = ({ pairs, onComplete }) => {
           >
             <div className="card-inner">
               <div className="card-front">
-                {card.content}
+                {card.content && typeof card.content === 'string' && card.content.startsWith('http') ? (
+                  <img src={card.content} alt="Memory Card Content" style={{ maxWidth: '100%', maxHeight: '80px', objectFit: 'contain' }} />
+                ) : (
+                  card.content
+                )}
               </div>
               <div className="card-back">
                 ?
