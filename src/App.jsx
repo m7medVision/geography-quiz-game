@@ -71,20 +71,6 @@ function App() {
     }
   }, [playerName, characterType, unlockedContinents, playerLevel])
   
-  // Check if all continents are unlocked
-  const areAllContinentsUnlocked = continentUnlockOrder.every(continent => 
-    unlockedContinents.includes(continent)
-  )
-  
-  // Effect to check if all continents are unlocked after any unlock
-  useEffect(() => {
-    if (areAllContinentsUnlocked && gameStage === 6) {
-      // If we're on the world map and all continents are unlocked,
-      // proceed to the celebration screen
-      setGameStage(9)
-    }
-  }, [unlockedContinents, areAllContinentsUnlocked, gameStage])
-  
   // Stage handlers
   const handleStartGame = () => {
     setGameStage(2)
@@ -255,17 +241,6 @@ function App() {
             totalQuestions={quizResults.totalQuestions}
             onReplay={handleReplayQuiz}
             onNextContinent={handleNextContinent}
-          />
-        )}
-        
-        {gameStage === 9 && (
-          <CelebrationScreen
-            key="celebration"
-            playerName={playerName}
-            characterType={characterType}
-            playerLevel={playerLevel}
-            onPlayAgain={handlePlayAgain}
-            onResetGame={handleResetGame}
           />
         )}
       </AnimatePresence>
