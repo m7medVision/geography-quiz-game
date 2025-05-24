@@ -2,19 +2,8 @@ export const questions = {
   asia: {
     easy: [
       {
-        type: 'multiple-choice',
-        question: 'Which of these is a city in Asia?',
-        options: ['New York', 'Jerusalem', 'London', 'Paris'],
-        answer: 'Jerusalem',
-      },
-      {
         type: 'true-false',
         question: 'Jerusalem is the capital of Palestine.',
-        answer: true,
-      },
-      {
-        type: 'true-false',
-        question: 'Is Palestine a country?',
         answer: true,
       },
       {
@@ -38,40 +27,8 @@ export const questions = {
           { image: 'https://images.unsplash.com/photo-1608037521277-154cd1b89191?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', place: 'Great Wall of China', country: 'China' },
         ],
       },
-      {
-        type: 'fill-blank',
-        question: 'The capital city of Oman is ______.',
-        answer: 'Muscat',
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Which of these is a country in Asia?',
-        options: ['Oman', 'Canada', 'Italy', 'Brazil'],
-        answer: 'Oman',
-      },
-      {
-        type: 'true-false',
-        question: 'Countries like Oman and Saudi Arabia are part of the continent Asia.',
-        answer: true,
-      },
     ],
     medium: [
-      {
-        type: 'match',
-        question: 'Match the famous landmark to its country',
-        pairs: [
-          { landmark: 'Taj Mahal', country: 'India' },
-          { landmark: 'Kaaba', country: 'Saudi Arabia' },
-          { landmark: 'Burj Khalifa', country: 'UAE' },
-          { landmark: 'Mount Fuji', country: 'Japan' },
-        ],
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Choose the correct flag for Japan',
-        options: ['🇸🇦', '🇯🇵', '🇨🇳', '🇮🇳'],
-        answer: '🇯🇵',
-      },
       {
         type: 'match',
         question: 'Match the city to its country',
@@ -88,23 +45,6 @@ export const questions = {
         type: 'fill-blank',
         question: 'The official language spoken in Saudi Arabia is ______.',
         answer: 'Arabic',
-      },
-      {
-        type: 'true-false',
-        question: 'India, China, and the United Arab Emirates are all in Asia.',
-        answer: true,
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Which of these is not in Asia?',
-        options: ['India', 'Oman', 'Brazil', 'China'],
-        answer: 'Brazil',
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Which picture shows something from the United Arab Emirates (UAE)?',
-        options: ['🗼 Eiffel Tower', '🏯 Japanese Temple', '🌇 Burj Khalifa', '🏰 German Castle'],
-        answer: '🌇 Burj Khalifa',
       },
     ],
   },
@@ -203,30 +143,12 @@ export const questions = {
       },
       {
         type: 'multiple-choice',
-        question: 'Which country has this flag? 🇫🇷',
-        options: ['France', 'Italy', 'Spain'],
-        answer: 'France',
-      },
-      {
-        type: 'multiple-choice',
         question: 'What is the capital of Germany?',
         options: ['Berlin', 'Muscat', 'London'],
         answer: 'Berlin',
       },
     ],
     hard: [
-      {
-        type: 'multiple-choice',
-        question: 'Which flag belongs to Spain?',
-        options: ['🇪🇸', '🇬🇧', '🇸🇪'],
-        answer: '🇪🇸',
-      },
-      {
-        type: 'multiple-choice',
-        question: 'What is the capital of the United Kingdom?',
-        options: ['London', 'Edinburgh', 'Cardiff'],
-        answer: 'London',
-      },
       {
         type: 'multiple-choice',
         question: 'What is the largest country in Europe?',
@@ -249,20 +171,8 @@ export const questions = {
         ],
       },
       {
-        type: 'multiple-choice',
-        question: 'Which is the largest country by area in North America?',
-        options: ['USA', 'Canada', 'Mexico', 'Cuba'],
-        answer: 'Canada',
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Which of these is a city in North America?',
-        options: ['New York', 'Jerusalem', 'London', 'Paris'],
-        answer: 'New York',
-      },
-      {
         type: 'true-false',
-        question: 'The United States is the largest country in North America.',
+        question: 'The United States is the largest country by population in North America.',
         answer: true,
       },
     ],
@@ -317,19 +227,6 @@ export const questions = {
           { country: 'Argentina', city: 'Buenos Aires' },
           { country: 'Chile', city: 'Santiago' },
         ],
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Which of these is a famous statue in Brazil?',
-        options: ['The Eiffel Tower', 'Christ the Redeemer', 'The Statue of Liberty', 'The Great Wall'],
-        answer: 'Christ the Redeemer',
-      },
-      {
-        type: 'multiple-choice',
-        question: 'Which of the following are countries in South America?',
-        options: ['Mexico', 'Venezuela', 'Bolivia', 'Canada'],
-        answer: 'Venezuela, Bolivia',
-        multipleCorrect: true,
       },
     ],
     hard: [
