@@ -21,7 +21,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
   
   // Get the appropriate difficulty level for current progress
   useEffect(() => {
-    const continentKey = currentContinent.toLowerCase();
+    const continentKey = currentContinent;
     
     // Check if the continent exists in questions
     if (questions[continentKey]) {
@@ -35,7 +35,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
   }, [currentContinent, questions]);
   
   // Get questions for the selected continent and difficulty
-  const continentKey = currentContinent.toLowerCase();
+  const continentKey = currentContinent;
   const continentQuestions = questions[continentKey] && questions[continentKey][difficulty] 
     ? questions[continentKey][difficulty] 
     : [];
