@@ -2,6 +2,22 @@ export const questions = {
   asia: {
     easy: [
       {
+        type: 'multiple-choice',
+        question: 'Which of these is a city in Asia?',
+        options: ['New York', 'Jerusalem', 'London', 'Paris'],
+        answer: 'Jerusalem',
+      },
+      {
+        type: 'true-false',
+        question: 'Jerusalem is the capital of Palestine.',
+        answer: true,
+      },
+      {
+        type: 'true-false',
+        question: 'Is Palestine a country?',
+        answer: true,
+      },
+      {
         type: 'match-flag',
         question: 'Match the flag to the country',
         pairs: [
@@ -237,6 +253,17 @@ export const questions = {
         question: 'Which is the largest country by area in North America?',
         options: ['USA', 'Canada', 'Mexico', 'Cuba'],
         answer: 'Canada',
+      },
+      {
+        type: 'multiple-choice',
+        question: 'Which of these is a city in North America?',
+        options: ['New York', 'Jerusalem', 'London', 'Paris'],
+        answer: 'New York',
+      },
+      {
+        type: 'true-false',
+        question: 'The United States is the largest country in North America.',
+        answer: true,
       },
     ],
     medium: [

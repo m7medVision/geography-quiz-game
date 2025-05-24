@@ -143,7 +143,7 @@ const MemoryMatchGame = ({ pairs, onComplete }) => {
             key={card.id}
             className={`memory-card ${flippedIndexes.includes(index) || showPreview || matchedPairs.flat().includes(index) ? 'flipped' : ''} ${matchedPairs.flat().includes(index) ? 'matched' : ''}`}
             onClick={() => handleCardClick(index)}
-            whileHover={canFlip ? { scale: 1.03 } : {}}
+            whileHover={canFlip ? { scale: 1.007 } : {}}
             whileTap={canFlip ? { scale: 0.97 } : {}}
           >
             <div className="card-inner">

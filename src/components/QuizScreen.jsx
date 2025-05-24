@@ -128,7 +128,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
                              ${isCorrect !== null && option === currentQuestion.answer ? 'correct' : ''}
                              ${isCorrect === false && selectedAnswer === option ? 'incorrect' : ''}`}
                   onClick={() => isCorrect === null && handleAnswerSelect(option)}
-                  whileHover={{ scale: 1.03 }}
+                  whileHover={{ scale: 1.007 }}
                   whileTap={{ scale: 0.98 }}
                   disabled={isCorrect !== null}
                 >
@@ -148,7 +148,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
                           ${isCorrect !== null && currentQuestion.answer === true ? 'correct' : ''}
                           ${isCorrect === false && selectedAnswer === true ? 'incorrect' : ''}`}
                 onClick={() => isCorrect === null && handleAnswerSelect(true)}
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.007 }}
                 whileTap={{ scale: 0.98 }}
                 disabled={isCorrect !== null}
               >
@@ -159,7 +159,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
                           ${isCorrect !== null && currentQuestion.answer === false ? 'correct' : ''}
                           ${isCorrect === false && selectedAnswer === false ? 'incorrect' : ''}`}
                 onClick={() => isCorrect === null && handleAnswerSelect(false)}
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.007 }}
                 whileTap={{ scale: 0.98 }}
                 disabled={isCorrect !== null}
               >

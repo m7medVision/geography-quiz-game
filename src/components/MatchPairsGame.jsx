@@ -125,7 +125,7 @@ const MatchPairsGame = ({ pairs, onComplete }) => {
                 matches.some(match => match.leftId === item.id) ? 'matched' : ''
               }`}
               onClick={() => !matches.some(match => match.leftId === item.id) && handleLeftSelect(item)}
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.007 }}
               whileTap={{ scale: 0.97 }}
             >
               {item.text && typeof item.text === 'string' && item.text.startsWith('http') ? (
@@ -168,7 +168,7 @@ const MatchPairsGame = ({ pairs, onComplete }) => {
                 matches.some(match => match.rightId === item.id) ? 'matched' : ''
               }`}
               onClick={() => !matches.some(match => match.rightId === item.id) && handleRightSelect(item)}
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.007 }}
               whileTap={{ scale: 0.97 }}
             >
               {item.text && typeof item.text === 'string' && item.text.startsWith('http') ? (
