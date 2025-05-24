@@ -45,14 +45,14 @@ const ResultsScreen = ({ playerName, characterType, continent, score, totalQuest
   
   // Prepare result messages based on score
   const resultText = isPassing 
-    ? `Congratulations, ${playerName}!
-      You scored ${score}/${totalQuestions} on the ${formattedContinent} quiz.
-      ${nextContinent ? `You've unlocked ${formattedNextContinent}!` : 'You\'ve unlocked all continents!'}
-      Would you like to replay this quiz or explore another continent?`
-    : `Nice try, ${playerName}!
-      You scored ${score}/${totalQuestions} on the ${formattedContinent} quiz.
-      You need at least ${Math.ceil(totalQuestions / 2)}/${totalQuestions} to unlock the next continent.
-      Would you like to try again?`
+    ? `Amazing work, ${playerName}!
+      You scored ${score}/${totalQuestions} on the ${formattedContinent} quest.
+      ${nextContinent ? `You've brought the light back to this part of the world! ${formattedNextContinent} is now glowing on the map!` : 'You\'ve restored light to all continents! The magical map is complete!'}
+      The magic is returning! Let's keep going to restore more of the map!`
+    : `Good effort, ${playerName}!
+      You scored ${score}/${totalQuestions} on the ${formattedContinent} quest.
+      You need at least ${Math.ceil(totalQuestions / 2)}/${totalQuestions} to bring the light back to this continent.
+      Don't worry - every great explorer needs practice! Let's try again!`
   
   // Text typing effect
   useEffect(() => {
@@ -122,7 +122,7 @@ const ResultsScreen = ({ playerName, characterType, continent, score, totalQuest
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Replay Quiz
+            Try Again
           </motion.button>
           
           <motion.button 
@@ -132,7 +132,7 @@ const ResultsScreen = ({ playerName, characterType, continent, score, totalQuest
             whileTap={{ scale: 0.95 }}
             disabled={!isPassing && currentIndex === 0}
           >
-            World Map
+            Return to Map
           </motion.button>
         </div>
       </div>

@@ -303,12 +303,9 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
           </div>
         )}
         
-        <div className="character-intro">
-          <div className="character-avatar">
-            <img src={characterImage} alt="Character" className="avatar-image" />
-          </div>
-          <div className="speech-bubble">
-            <p>{displayedText}</p>
+        <div className="quiz-question-container">
+          <div className="question-display">
+            <p className="question-text">{displayedText}</p>
             
             {!isTyping && renderQuestionContent()}
             

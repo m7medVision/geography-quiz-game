@@ -6,10 +6,11 @@ import maleChar from '../assets/characters/DeWatermark.ai_1747751085011.png'
 
 const GameScreen = ({ playerName, characterType, onNext }) => {
   const characterImage = characterType === 'male' ? maleChar : femaleChar
+  const characterName = characterType === 'male' ? 'Leo' : 'Lina'
   const [isTyping, setIsTyping] = useState(true)
   const [displayedText, setDisplayedText] = useState('')
   
-  const welcomeText = `Hello ${playerName}! Ready to explore world geography? Click on a continent to begin your journey!`
+  const welcomeText = `Hi ${playerName}! I'm ${characterName}, your adventure buddy. The world needs our help! The magic map has lost its power, and the only way to bring it back is by exploring each continent and answering questions to unlock them. We'll start with one continent, but every time you answer questions correctly, you'll unlock more of the map. By the end of our journey, we'll light up the whole world together!`
   
   useEffect(() => {
     if (isTyping) {
@@ -28,7 +29,7 @@ const GameScreen = ({ playerName, characterType, onNext }) => {
       
       return () => clearInterval(typingInterval)
     }
-  }, [isTyping, playerName])
+  }, [isTyping, welcomeText])
   
   return (
     <motion.div 

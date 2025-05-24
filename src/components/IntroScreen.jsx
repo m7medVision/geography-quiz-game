@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 const IntroScreen = ({ onNext }) => {
   const [currentText, setCurrentText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  const fullText = "Welcome to the Geography Quiz Game! Test your knowledge of world geography with fun quizzes and unlock continents as you go!";
+  const fullText = "Long ago, a magical map was created to keep the secrets of the world safe. But over time, the map lost its glow, and the knowledge of each continent was hidden away. The world needs your help! The only way to bring the magic back is by exploring each continent and answering questions to unlock them.";
 
   useEffect(() => {
     if (currentIndex < fullText.length) {
@@ -50,7 +50,7 @@ const IntroScreen = ({ onNext }) => {
             transition={{ delay: 0.3 }}
           >
             <div className="character-avatar">
-              <div className="avatar-placeholder">👤</div>
+              <div className="avatar-placeholder">🌍</div>
             </div>
             <div className="speech-bubble typing-animation">
               <p>{currentText}</p>

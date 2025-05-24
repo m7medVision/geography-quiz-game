@@ -115,7 +115,7 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
   const promptText = `Welcome back, ${playerName}!
     Level: ${playerLevel}
     Unlocked: ${unlockedContinents.length} of 7 continents.
-    Click on a continent to start answering questions about it!`
+    Look! The map is starting to glow again! Click on the glowing continent to begin our next quest and restore more light to the magical map!`
   
   // Typing effect for text
   useEffect(() => {
@@ -212,16 +212,18 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
             {continentButtons.map((continent) => (
               <motion.button
                 key={continent.id}
-                className={`continent-btn ${unlockedContinents.includes(continent.id) || continent.id === 'asia' ? 'unlocked' : 'locked'}`}
+                className={`continent-btn ${unlockedContinents.includes(continent.id) || continent.id === 'asia' ? 'unlocked glowing' : 'locked'}`}
                 onClick={() => handleContinentSelect(continent.id)}
                 whileHover={unlockedContinents.includes(continent.id) || continent.id === 'asia' ? { scale: 1.05 } : {}}
                 whileTap={unlockedContinents.includes(continent.id) || continent.id === 'asia' ? { scale: 0.95 } : {}}
                 disabled={!unlockedContinents.includes(continent.id) && continent.id !== 'asia'}
               >
+                {unlockedContinents.includes(continent.id) || continent.id === 'asia' ? '✨ ' : ''}
                 {continent.name}
                 {!unlockedContinents.includes(continent.id) && continent.id !== 'asia' && (
-                  <span className="btn-lock-icon">🔒</span>
+                  <span className="btn-lock-icon"> 🔒</span>
                 )}
+                {unlockedContinents.includes(continent.id) || continent.id === 'asia' ? ' ✨' : ''}
               </motion.button>
             ))}
           </div>

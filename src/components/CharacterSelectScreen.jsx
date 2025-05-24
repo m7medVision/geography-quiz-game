@@ -5,8 +5,8 @@ import maleChar from '../assets/characters/DeWatermark.ai_1747751085011.png'
 
 const CharacterSelectScreen = ({ playerName, onSelect }) => {
   const characters = [
-    { id: 'male', image: maleChar, label: 'Boy' },
-    { id: 'female', image: femaleChar, label: 'Girl' }
+    { id: 'male', image: maleChar, label: 'Leo', description: 'Curious and brave boy with a compass' },
+    { id: 'female', image: femaleChar, label: 'Lina', description: 'Clever and energetic girl with a journal' }
   ]
   
   return (
@@ -29,7 +29,7 @@ const CharacterSelectScreen = ({ playerName, onSelect }) => {
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
-            Choose your character
+            Choose your adventure buddy
           </motion.h2>
           
           <motion.div 
@@ -57,6 +57,7 @@ const CharacterSelectScreen = ({ playerName, onSelect }) => {
                   />
                 </div>
                 <p className="character-label">{char.label}</p>
+                <p className="character-description">{char.description}</p>
               </motion.div>
             ))}
           </motion.div>

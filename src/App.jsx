@@ -12,7 +12,6 @@ import GameScreen from './components/GameScreen'
 import WorldMapScreen from './components/WorldMapScreen'
 import QuizScreen from './components/QuizScreen'
 import ResultsScreen from './components/ResultsScreen'
-import CelebrationScreen from './components/CelebrationScreen'
 
 function App() {
   // Game state
