@@ -19,10 +19,29 @@ const MatchPairsGame = ({ pairs, onComplete }) => {
     const right = [];
     
     pairs.forEach((pair, index) => {
-      // Get the appropriate pair values based on the pair structure
-      // Each pair object might have different property names
-      const leftValue = pair.country || pair.river || pair.landmark || pair.place || pair.flag || pair.city;
-      const rightValue = pair.capital || pair.country || pair.continent || pair.city || pair.language;
+      // Get all the keys and values from the pair object
+      const pairKeys = Object.keys(pair);
+      
+      // Smart extraction based on known patterns
+      let leftValue, rightValue;
+      
+      // Define which properties typically go on which side
+      const leftSideProps = ['city', 'capital', 'landmark', 'place', 'flag', 'image', 'river', 'animal', 'feature'];
+      const rightSideProps = ['country', 'continent', 'language', 'description', 'category'];
+      
+      // Find the left and right properties
+      const leftProp = pairKeys.find(key => leftSideProps.includes(key));
+      const rightProp = pairKeys.find(key => rightSideProps.includes(key));
+      
+      if (leftProp && rightProp) {
+        leftValue = pair[leftProp];
+        rightValue = pair[rightProp];
+      } else {
+        // Fallback to first two properties if no semantic match
+        const values = Object.values(pair);
+        leftValue = values[0];
+        rightValue = values[1];
+      }
       
       left.push({
         id: index,
