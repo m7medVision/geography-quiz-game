@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import backgroundImage from '../assets/maps/oceans/title-background.png'
+import mapbackgroundImage from '../assets/maps/oceans/title-background.png'
+import backgroundImage from '../assets/backgrounds/bg.gif'
 import femaleChar from '../assets/characters/DeWatermark.ai_1747751052527.png'
 import maleChar from '../assets/characters/DeWatermark.ai_1747751085011.png'
 
@@ -33,7 +34,7 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
     {
       id: 'background',
       name: 'Background',
-      image: backgroundImage,
+      image: mapbackgroundImage,
       isBackground: true,
     },
     { 
@@ -164,6 +165,11 @@ const WorldMapScreen = ({ playerName, characterType, unlockedContinents: propUnl
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ type: 'tween', duration: 0.5 }}
+      style={{ 
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
       <div className="content world-map-content">
         <div className="world-map-header">
