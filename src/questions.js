@@ -75,11 +75,6 @@ export const questions = {
     ],
     medium: [
       {
-        type: 'fill-blank',
-        question: 'The ______ Desert is the largest hot desert in the world.',
-        answer: 'Sahara',
-      },
-      {
         type: 'multiple-choice',
         question: 'Which African country was never colonized by Europeans?',
         options: ['Kenya', 'Egypt', 'Ethiopia', 'Nigeria'],
