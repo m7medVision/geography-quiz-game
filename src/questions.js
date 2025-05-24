@@ -265,15 +265,17 @@ export const questions = {
     ],
     medium: [
       {
-        type: 'match',
-        question: 'Match these Australian animals to their descriptions',
-        pairs: [
-          { animal: 'Kangaroo', description: 'Marsupial that hops' },
-          { animal: 'Koala', description: 'Tree-dwelling marsupial' },
-          { animal: 'Platypus', description: 'Egg-laying mammal' },
-          { animal: 'Emu', description: 'Large flightless bird' },
+        type: 'multiple-choice',
+        question: 'Which of these facts is NOT true about Australia?',
+        options: [
+          '🇦🇺 Australia is both a country and a continent',
+          '🐍 Australia has more snakes than people',
+          '🌏 The Great Barrier Reef is found in Australia',
+          '🐑 Australia has more sheep than people'
         ],
-      },
+        answer: '🐍 Australia has more snakes than people',
+      }
+
     ],
     hard: [
       {
