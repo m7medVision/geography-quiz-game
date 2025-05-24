@@ -17,34 +17,66 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
   const [displayedText, setDisplayedText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
   const [textInput, setTextInput] = useState('')
-  const [difficulty, setDifficulty] = useState('easy')
+  const [allQuestions, setAllQuestions] = useState([])
   
-  // Get the appropriate difficulty level for current progress
+  // Load ALL questions from all difficulty levels for the current continent
   useEffect(() => {
     const continentKey = currentContinent;
     
-    // Check if the continent exists in questions
     if (questions[continentKey]) {
-      // Determine difficulty based on score or default to easy
-      // This is a simple implementation - you could enhance this
-      // to be based on player progress or other game state
-      setDifficulty('easy');
+      let combinedQuestions = [];
+      
+      // Get questions from all difficulty levels
+      const difficulties = ['easy', 'medium', 'hard'];
+      
+      difficulties.forEach(difficulty => {
+        if (questions[continentKey][difficulty]) {
+          // Add difficulty property to each question
+          const questionsWithDifficulty = questions[continentKey][difficulty].map(question => ({
+            ...question,
+            difficulty: difficulty
+          }));
+          combinedQuestions = [...combinedQuestions, ...questionsWithDifficulty];
+        }
+      });
+      
+      // Shuffle the combined questions to mix difficulties
+      const shuffledQuestions = shuffleArray(combinedQuestions);
+      setAllQuestions(shuffledQuestions);
     } else {
-      setDifficulty('easy'); // Default fallback
+      setAllQuestions([]);
     }
   }, [currentContinent, questions]);
   
-  // Get questions for the selected continent and difficulty
-  const continentKey = currentContinent;
-  const continentQuestions = questions[continentKey] && questions[continentKey][difficulty] 
-    ? questions[continentKey][difficulty] 
-    : [];
+  // Fisher-Yates shuffle function
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
   
-  const currentQuestion = continentQuestions[currentQuestionIndex];
+  const currentQuestion = allQuestions[currentQuestionIndex];
   
-  // Prepare question text
+  // Get difficulty display info
+  const getDifficultyInfo = (difficulty) => {
+    switch(difficulty) {
+      case 'easy':
+        return { label: 'Easy Question', color: '#4CAF50', emoji: '😊' };
+      case 'medium':
+        return { label: 'Medium Question', color: '#FF9800', emoji: '🤔' };
+      case 'hard':
+        return { label: 'Hard Question', color: '#F44336', emoji: '😤' };
+      default:
+        return { label: 'Question', color: '#2196F3', emoji: '❓' };
+    }
+  };
+  
+  // Prepare question text with difficulty indicator
   const questionText = currentQuestion 
-    ? `Question ${currentQuestionIndex + 1}/${continentQuestions.length}: ${currentQuestion.question}` 
+    ? `Question ${currentQuestionIndex + 1}/${allQuestions.length}: ${currentQuestion.question}` 
     : 'Loading question...';
   
   // Text typing effect
@@ -103,12 +135,12 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
   };
   
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < continentQuestions.length - 1) {
+    if (currentQuestionIndex < allQuestions.length - 1) {
       // Go to next question
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       // Finish the quiz
-      onFinishQuiz(currentContinent, score, continentQuestions.length);
+      onFinishQuiz(currentContinent, score, allQuestions.length);
     }
   };
   
@@ -241,8 +273,35 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
       <div className="content quiz-content">
         <div className="quiz-header">
           <h2 className="continent-title">{currentContinent}</h2>
-          <div className="score-display">Score: {score}/{continentQuestions.length}</div>
+          <div className="score-display">Score: {score}/{allQuestions.length}</div>
         </div>
+        
+        {/* Difficulty indicator */}
+        {currentQuestion && (
+          <div className="difficulty-indicator">
+            <motion.div 
+              className="difficulty-badge"
+              style={{ 
+                backgroundColor: getDifficultyInfo(currentQuestion.difficulty).color,
+                color: 'white',
+                padding: '8px 16px',
+                borderRadius: '20px',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '16px'
+              }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', damping: 15 }}
+            >
+              <span>{getDifficultyInfo(currentQuestion.difficulty).emoji}</span>
+              <span>{getDifficultyInfo(currentQuestion.difficulty).label}</span>
+            </motion.div>
+          </div>
+        )}
         
         <div className="character-intro">
           <div className="character-avatar">
@@ -264,7 +323,7 @@ const QuizScreen = ({ playerName, characterType, currentContinent, questions, on
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {currentQuestionIndex < continentQuestions.length - 1 ? 'Next Question' : 'See Results'}
+                  {currentQuestionIndex < allQuestions.length - 1 ? 'Next Question' : 'See Results'}
                 </motion.button>
               </div>
             )}
