@@ -7,14 +7,14 @@ export const questions = {
         answer: true,
       },
       {
-        type: 'match-flag',
+        type: 'match-image',
         question: 'Match the flag to the country',
         pairs: [
-          { flag: '🇴🇲', country: 'Oman' },
-          { flag: '🇮🇳', country: 'India' },
-          { flag: '🇸🇦', country: 'Saudi Arabia' },
-          { flag: '🇯🇵', country: 'Japan' },
-          { flag: '🇨🇳', country: 'China' },
+          { image: 'https://flagsapi.com/OM/flat/64.png', country: 'Oman', place: '' },
+          { image: 'https://flagsapi.com/IN/flat/64.png', country: 'India', place: '' },
+          { image: 'https://flagsapi.com/SA/flat/64.png', country: 'Saudi Arabia', place: '' },
+          { image: 'https://flagsapi.com/JP/flat/64.png', country: 'Japan', place: '' },
+          { image: 'https://flagsapi.com/CN/flat/64.png', country: 'China', place: '' },
         ],
       },
       {
@@ -98,14 +98,14 @@ export const questions = {
   europe: {
     easy: [
       {
-        type: 'match-flag',
+        type: 'match-image',
         question: 'Match the flag to the country',
         pairs: [
-          { flag: '🇫🇷', country: 'France' },
-          { flag: '🇮🇹', country: 'Italy' },
-          { flag: '🇪🇸', country: 'Spain' },
-          { flag: '🇩🇪', country: 'Germany' },
-          { flag: '🇬🇧', country: 'United Kingdom' },
+          { image: 'https://flagsapi.com/FR/flat/64.png', country: 'France', place: '' },
+          { image: 'https://flagsapi.com/IT/flat/64.png', country: 'Italy', place: '' },
+          { image: 'https://flagsapi.com/ES/flat/64.png', country: 'Spain', place: '' },
+          { image: 'https://flagsapi.com/DE/flat/64.png', country: 'Germany', place: '' },
+          { image: 'https://flagsapi.com/GB/flat/64.png', country: 'United Kingdom', place: '' },
         ],
       },
       {
