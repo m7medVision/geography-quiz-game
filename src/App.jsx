@@ -15,6 +15,7 @@ import ResultsScreen from './components/ResultsScreen'
 import CelebrationScreen from './components/CelebrationScreen'
 
 function App() {
+  const [bgMusicPlaying, setBgMusicPlaying] = useState(false)
   // Game state
   const [gameStage, setGameStage] = useState(1) // Stages 1-9 (9 is the celebration screen)
   const [playerName, setPlayerName] = useState('')
@@ -84,6 +85,16 @@ function App() {
   
   // Stage handlers
   const handleStartGame = () => {
+    // Play background music after user interaction
+    if (!bgMusicPlaying) {
+      const audio = document.getElementById('bg-music')
+      if (audio) {
+        audio.play().catch(error => {
+          console.log('Audio play failed:', error)
+        })
+        setBgMusicPlaying(true)
+      }
+    }
     setGameStage(2)
   }
   
@@ -198,6 +209,14 @@ function App() {
   
   // Render appropriate stage
   return (
+    <>
+    <audio
+      id='bg-music'
+      src='/bg.mp3'
+      loop
+      preload="auto"
+      muted={false}
+    />
     <div className="app-container">
       <AnimatePresence mode="wait">
         {gameStage === 1 && (
@@ -276,6 +295,7 @@ function App() {
         )}
       </AnimatePresence>
     </div>
+    </>
   )
 }
 
