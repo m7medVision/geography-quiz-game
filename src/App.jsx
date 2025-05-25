@@ -12,6 +12,7 @@ import GameScreen from './components/GameScreen'
 import WorldMapScreen from './components/WorldMapScreen'
 import QuizScreen from './components/QuizScreen'
 import ResultsScreen from './components/ResultsScreen'
+import CelebrationScreen from './components/CelebrationScreen'
 
 function App() {
   // Game state
@@ -21,6 +22,7 @@ function App() {
   const [selectedContinent, setSelectedContinent] = useState(null)
   const [quizResults, setQuizResults] = useState({})
   const [unlockedContinents, setUnlockedContinents] = useState(['asia'])
+  const [finishedQuizs, setFinishedQuizs] = useState([])
   const [playerLevel, setPlayerLevel] = useState(1)
   
   // All continents list in unlocking order
@@ -33,7 +35,14 @@ function App() {
     'australia', 
     'antarctica'
   ]
-  
+
+  // If all continents are finished, show celebration
+  useEffect(() => {
+    if (finishedQuizs.length === continentUnlockOrder.length) {
+      setGameStage(9)
+    }
+  }, [finishedQuizs])
+
   // Load saved player data from localStorage on initial load
   useEffect(() => {
     const savedPlayerData = localStorage.getItem('geographyQuizPlayerData')
@@ -48,7 +57,9 @@ function App() {
         setUnlockedContinents(parsedData.unlockedContinents)
       }
       if (parsedData.playerLevel) setPlayerLevel(parsedData.playerLevel)
-      
+      if (parsedData.finishedQuizs && parsedData.finishedQuizs.length) {
+        setFinishedQuizs(parsedData.finishedQuizs)
+      }
       // If player has saved data, skip to world map if character already selected
       if (parsedData.playerName && parsedData.characterType && gameStage === 1) {
         setGameStage(6) // Skip to world map screen
@@ -63,12 +74,13 @@ function App() {
         playerName,
         characterType,
         unlockedContinents,
-        playerLevel
+        playerLevel,
+        finishedQuizs
       }
       
       localStorage.setItem('geographyQuizPlayerData', JSON.stringify(playerData))
     }
-  }, [playerName, characterType, unlockedContinents, playerLevel])
+  }, [playerName, characterType, unlockedContinents, playerLevel, finishedQuizs])
   
   // Stage handlers
   const handleStartGame = () => {
@@ -126,6 +138,16 @@ function App() {
           setPlayerLevel(prevLevel => prevLevel + 1)
         }
       }
+      // Add to finishedQuizs if not already present
+      if (!finishedQuizs.includes(continent)) {
+        const newFinishedQuizs = [...finishedQuizs, continent]
+        setFinishedQuizs(newFinishedQuizs)
+        // If all continents are finished, show celebration
+        if (newFinishedQuizs.length === continentUnlockOrder.length) {
+          setGameStage(9)
+          return
+        }
+      }
     }
     
     // Proceed to results screen (stage 8)
@@ -148,7 +170,7 @@ function App() {
     setSelectedContinent(null)
     setQuizResults({})
     setPlayerLevel(1)
-    
+    setFinishedQuizs([])
     // Save the reset data to localStorage
     const resetData = {
       playerName,
@@ -157,7 +179,6 @@ function App() {
       playerLevel: 1
     }
     localStorage.setItem('geographyQuizPlayerData', JSON.stringify(resetData))
-    
     // Go back to the world map screen
     setGameStage(6)
   }
@@ -168,6 +189,7 @@ function App() {
     setPlayerName('')
     setCharacterType(null)
     setUnlockedContinents(['asia'])
+    setFinishedQuizs([])
     setSelectedContinent(null)
     setQuizResults({})
     setPlayerLevel(1)
@@ -240,6 +262,16 @@ function App() {
             totalQuestions={quizResults.totalQuestions}
             onReplay={handleReplayQuiz}
             onNextContinent={handleNextContinent}
+          />
+        )}
+        
+        {gameStage === 9 && (
+          <CelebrationScreen 
+            key="celebration"
+            playerName={playerName}
+            characterType={characterType}
+            playerLevel={playerLevel}
+            onPlayAgain={handlePlayAgain}
           />
         )}
       </AnimatePresence>
